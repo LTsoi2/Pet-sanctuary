@@ -1,14 +1,15 @@
+// routes/api.js
 const express = require('express');
 const VirtualPet = require('../models/VirtualPet');
 const router = express.Router();
 
-// GET /api/pets - 获取所有宠物（支持查询）
+// GET /api/pets - Get all pets, with optional filtering
 router.get('/pets', async (req, res) => {
   try {
     const { species, rarity, trait, minHappiness, maxHappiness } = req.query;
     let filter = {};
 
-    // 构建查询条件
+    // Build query conditions based on provided filters
     if (species) filter.species = species;
     if (rarity) filter.rarity = rarity;
     if (trait) filter.traits = { $in: [trait] };
@@ -19,6 +20,27 @@ router.get('/pets', async (req, res) => {
     }
 
     const pets = await VirtualPet.find(filter);
+    
+    res.json({
+      success: true,
+      count: pets.length,
+      data: pets
+    });
+  } catch (error) {
+    console.error('Error fetching pets:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch pets',
+      error: error.message
+    });
+  }
+});
+
+// GET /api/pets/public - Get all public pets (with no owner)
+router.get('/pets/public', async (req, res) => {
+  try {
+    const pets = await VirtualPet.find({ owner: null });
+    
     res.json({
       success: true,
       count: pets.length,
@@ -27,22 +49,24 @@ router.get('/pets', async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: '获取宠物列表失败',
+      message: 'Failed to fetch public pets',
       error: error.message
     });
   }
 });
 
-// GET /api/pets/:id - 获取单个宠物
+// GET /api/pets/:id - Get a single pet by ID
 router.get('/pets/:id', async (req, res) => {
   try {
     const pet = await VirtualPet.findById(req.params.id);
+    
     if (!pet) {
       return res.status(404).json({
         success: false,
-        message: '未找到该宠物'
+        message: 'Pet not found'
       });
     }
+    
     res.json({
       success: true,
       data: pet
@@ -50,73 +74,104 @@ router.get('/pets/:id', async (req, res) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: '获取宠物详情失败',
+      message: 'Failed to fetch pet',
       error: error.message
     });
   }
 });
 
-// GET /api/pets/public - 获取所有公共宠物（没有owner的）
-router.get('/pets/public', async (req, res) => {
+// POST /api/pets - Create a new pet
+router.post('/pets', async (req, res) => {
   try {
-    const pets = await VirtualPet.find({ owner: null });
-    res.json({
-      success: true,
-      count: pets.length,
-      data: pets
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: '获取公共宠物失败',
-      error: error.message
-    });
-  }
-});
+    const { name, species, rarity, traits, stats } = req.body;
 
-// POST /api/pets/by-username - 通过用户名创建宠物（最简单的方法）
-router.post('/pets/by-username', async (req, res) => {
-  try {
-    const { name, species, rarity, traits, stats, color, username } = req.body;
-
-    // 验证必需字段
+    // Input validation
     if (!name || !species) {
       return res.status(400).json({
         success: false,
-        message: '名称和物种是必需字段'
+        message: 'Pet name and species are required fields'
       });
     }
 
-    if (!username) {
+    // Validate species against allowed types
+    const allowedSpecies = ['dragon', 'cat', 'dog', 'rat', 'elf', 'robot', 'wolf', 'deer', 'duck', 'bear'];
+    if (!allowedSpecies.includes(species)) {
       return res.status(400).json({
         success: false,
-        message: '用户名是必需字段'
-      });
-    }
-
-    // 查找用户
-    const User = require('../models/User');
-    let user = await User.findOne({ username });
-    
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: `用户 '${username}' 不存在，请先通过网页注册`
+        message: `Invalid species. Must be one of: ${allowedSpecies.join(', ')}`
       });
     }
 
     const newPet = new VirtualPet({
       name,
       species,
-      rarity: rarity || '普通',
+      rarity: rarity || 'Common',
       traits: Array.isArray(traits) ? traits : [traits].filter(Boolean),
       stats: {
         hunger: stats?.hunger || 50,
         happiness: stats?.happiness || 50,
         energy: stats?.energy || 50
       },
-      customizations: {
-        color: color || '#667eea'
+      owner: null, // API-created pets have no owner by default
+      createdBy: 'api'
+    });
+
+    await newPet.save();
+    
+    res.status(201).json({
+      success: true,
+      message: 'Pet created successfully',
+      data: newPet
+    });
+  } catch (error) {
+    console.error('Error creating pet:', error);
+    res.status(400).json({
+      success: false,
+      message: 'Failed to create pet',
+      error: error.message
+    });
+  }
+});
+
+// POST /api/pets/by-username - Create a pet for a specific user by username
+router.post('/pets/by-username', async (req, res) => {
+  try {
+    const { name, species, rarity, traits, stats, username } = req.body;
+
+    if (!name || !species) {
+      return res.status(400).json({
+        success: false,
+        message: 'Pet name and species are required fields'
+      });
+    }
+
+    if (!username) {
+      return res.status(400).json({
+        success: false,
+        message: 'Username is required'
+      });
+    }
+
+    // Find user by username
+    const User = require('../models/User');
+    let user = await User.findOne({ username });
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: `User '${username}' not found. Please register via the web interface first.`
+      });
+    }
+
+    const newPet = new VirtualPet({
+      name,
+      species,
+      rarity: rarity || 'Common',
+      traits: Array.isArray(traits) ? traits : [traits].filter(Boolean),
+      stats: {
+        hunger: stats?.hunger || 50,
+        happiness: stats?.happiness || 50,
+        energy: stats?.energy || 50
       },
       owner: user._id,
       createdBy: 'api'
@@ -124,10 +179,9 @@ router.post('/pets/by-username', async (req, res) => {
 
     await newPet.save();
     
-    console.log(`✅ API创建宠物成功: ${newPet.name} (所有者: ${user.username})`);
     res.status(201).json({
       success: true,
-      message: `宠物创建成功，所有者: ${user.username}`,
+      message: `Pet created successfully for user: ${user.username}`,
       data: newPet,
       owner: {
         id: user._id,
@@ -135,18 +189,19 @@ router.post('/pets/by-username', async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('❌ API创建宠物错误:', error);
+    console.error('Error creating pet with owner:', error);
     res.status(400).json({
       success: false,
-      message: '创建宠物失败',
+      message: 'Failed to create pet',
       error: error.message
     });
   }
 });
-// PUT /api/pets/:id - 更新宠物
+
+// PUT /api/pets/:id - Update a pet
 router.put('/pets/:id', async (req, res) => {
   try {
-    const { name, species, rarity, traits, stats, color } = req.body;
+    const { name, species, rarity, traits, stats } = req.body;
 
     const updateData = {};
     if (name) updateData.name = name;
@@ -159,7 +214,6 @@ router.put('/pets/:id', async (req, res) => {
       if (stats.happiness !== undefined) updateData.stats.happiness = stats.happiness;
       if (stats.energy !== undefined) updateData.stats.energy = stats.energy;
     }
-    if (color) updateData.customizations = { color };
 
     const pet = await VirtualPet.findByIdAndUpdate(
       req.params.id,
@@ -170,41 +224,44 @@ router.put('/pets/:id', async (req, res) => {
     if (!pet) {
       return res.status(404).json({
         success: false,
-        message: '未找到该宠物'
+        message: 'Pet not found'
       });
     }
 
     res.json({
       success: true,
+      message: 'Pet updated successfully',
       data: pet
     });
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: '更新宠物失败',
+      message: 'Failed to update pet',
       error: error.message
     });
   }
 });
 
-// DELETE /api/pets/:id - 删除宠物
+// DELETE /api/pets/:id - Delete a pet
 router.delete('/pets/:id', async (req, res) => {
   try {
     const pet = await VirtualPet.findByIdAndDelete(req.params.id);
+    
     if (!pet) {
       return res.status(404).json({
         success: false,
-        message: '未找到该宠物'
+        message: 'Pet not found'
       });
     }
+    
     res.json({
       success: true,
-      message: '宠物已删除'
+      message: 'Pet deleted successfully'
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: '删除宠物失败',
+      message: 'Failed to delete pet',
       error: error.message
     });
   }

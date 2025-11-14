@@ -1,25 +1,23 @@
-<%- include('partials/header', { title: title, dbStatus: dbStatus }) %>
+<%- include('partials/header', { title: 'Digital Pet Sanctuary' }) %>
 <div class="container text-center mt-5">
     <div class="row">
         <div class="col-md-8 mx-auto">
-            <h1 class="display-4">🐾 欢迎来到数字宠物收容所!</h1>
-            <p class="lead">收养和照顾神奇的虚拟生物</p>
+            <h1 class="display-4">🐾 Welcome to Digital Pet Sanctuary!</h1>
+            <p class="lead">Adopt and care for amazing virtual creatures</p>
             
             <div class="alert alert-success mt-4">
-                <h5>✅ 数据库状态：<%= dbStatus %></h5>
-                <p>使用 MongoDB Atlas 云数据库</p>
+                <h5>✅ Database Status: <span class="badge bg-success"><%= dbStatus %></span></h5>
+                <p>Using MongoDB Atlas Cloud Database</p>
             </div>
             
             <div class="mt-4">
                 <% if (locals.user) { %>
-                    <!-- 用户已登录时的链接 -->
-                    <a href="/pets" class="btn btn-primary btn-lg me-3">🐉 查看我的宠物</a>
-                    <a href="/pets/create" class="btn btn-success btn-lg me-3">➕ 收养新宠物</a>
-                    <a href="/auth/logout" class="btn btn-outline-secondary btn-lg">退出登录</a>
+                    <a href="/pets" class="btn btn-primary btn-lg me-3">🐉 View My Pets</a>
+                    <a href="/pets/create" class="btn btn-success btn-lg me-3">➕ Adopt New Pet</a>
+                    <a href="/auth/logout" class="btn btn-outline-secondary btn-lg">Logout</a>
                 <% } else { %>
-                    <!-- 用户未登录时的链接 -->
-                    <a href="/auth/register" class="btn btn-primary btn-lg me-3">立即注册</a>
-                    <a href="/auth/login" class="btn btn-outline-primary btn-lg">用户登录</a>
+                    <a href="/auth/register" class="btn btn-primary btn-lg me-3">Get Started</a>
+                    <a href="/auth/login" class="btn btn-outline-primary btn-lg">Login</a>
                 <% } %>
             </div>
             
@@ -27,12 +25,12 @@
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5 class="card-title">🐉 虚拟宠物</h5>
-                            <p class="card-text">收养独特的数字生物并照顾它们</p>
+                            <h5 class="card-title">🐉 Virtual Pets</h5>
+                            <p class="card-text">Adopt unique digital creatures and care for them</p>
                             <% if (locals.user) { %>
-                                <a href="/pets" class="btn btn-outline-primary">查看宠物</a>
+                                <a href="/pets" class="btn btn-outline-primary">View Pets</a>
                             <% } else { %>
-                                <a href="/auth/register" class="btn btn-outline-primary">注册后查看</a>
+                                <a href="/auth/register" class="btn btn-outline-primary">Register to View</a>
                             <% } %>
                         </div>
                     </div>
@@ -40,12 +38,12 @@
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5 class="card-title">❤️ 状态管理</h5>
-                            <p class="card-text">喂食、玩耍、休息，保持宠物快乐</p>
+                            <h5 class="card-title">❤️ Status Management</h5>
+                            <p class="card-text">Feed, play, rest - keep your pets happy</p>
                             <% if (locals.user) { %>
-                                <a href="/pets/create" class="btn btn-outline-success">收养宠物</a>
+                                <a href="/pets/create" class="btn btn-outline-success">Adopt Pet</a>
                             <% } else { %>
-                                <a href="/auth/register" class="btn btn-outline-success">注册后收养</a>
+                                <a href="/auth/register" class="btn btn-outline-success">Register to Adopt</a>
                             <% } %>
                         </div>
                     </div>
@@ -53,75 +51,13 @@
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5 class="card-title">🌐 云存储</h5>
-                            <p class="card-text">使用 MongoDB Atlas 安全保存数据</p>
+                            <h5 class="card-title">🌐 Cloud Storage</h5>
+                            <p class="card-text">Secure data storage with MongoDB Atlas</p>
                             <span class="badge bg-success"><%= dbStatus %></span>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- 功能特性展示 -->
-            <div class="mt-5">
-                <h3>✨ 功能特性</h3>
-                <div class="row mt-3 text-start">
-                    <div class="col-md-6">
-                        <ul class="list-group">
-                            <li class="list-group-item">✅ 用户注册和登录系统</li>
-                            <li class="list-group-item">✅ 虚拟宠物收养功能</li>
-                            <li class="list-group-item">✅ 宠物状态管理（饥饿、快乐、能量）</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <ul class="list-group">
-                            <li class="list-group-item">✅ 完整的 CRUD 操作</li>
-                            <li class="list-group-item">✅ 响应式网页设计</li>
-                            <li class="list-group-item">✅ MongoDB 云数据库</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 使用指南 -->
-            <% if (!locals.user) { %>
-            <div class="mt-5">
-                <h3>🎯 快速开始</h3>
-                <div class="row mt-3">
-                    <div class="col-md-3">
-                        <div class="card border-0">
-                            <div class="card-body">
-                                <h1>1</h1>
-                                <p>注册账户</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card border-0">
-                            <div class="card-body">
-                                <h1>2</h1>
-                                <p>登录系统</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card border-0">
-                            <div class="card-body">
-                                <h1>3</h1>
-                                <p>收养宠物</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="card border-0">
-                            <div class="card-body">
-                                <h1>4</h1>
-                                <p>开始照顾</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <% } %>
         </div>
     </div>
 </div>

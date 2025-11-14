@@ -1,11 +1,11 @@
 <%- include('../partials/header', { title: title }) %>
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>我的虚拟宠物 🐾</h1>
-        <a href="/pets/create" class="btn btn-primary">➕ 收养新宠物</a>
+        <h1>My Virtual Pets 🐾</h1>
+        <a href="/pets/create" class="btn btn-primary">➕ Adopt New Pet</a>
     </div>
 
-    <!-- 更安全的错误检查 -->
+    <!-- Safe error check -->
     <% if (typeof error !== 'undefined' && error) { %>
         <div class="alert alert-danger"><%= error %></div>
     <% } %>
@@ -13,23 +13,23 @@
     <% if (typeof pets === 'undefined' || pets.length === 0) { %>
         <div class="text-center py-5">
             <div class="empty-state">
-                <h3>🐾 还没有宠物哦！</h3>
-                <p class="text-muted mb-4">收养你的第一个虚拟宠物开始冒险吧</p>
-                <a href="/pets/create" class="btn btn-primary btn-lg me-3">收养第一个宠物</a>
-                <a href="/" class="btn btn-outline-secondary">返回首页</a>
+                <h3>🐾 No pets yet!</h3>
+                <p class="text-muted mb-4">Adopt your first virtual pet to start the adventure</p>
+                <a href="/pets/create" class="btn btn-primary btn-lg me-3">Adopt First Pet</a>
+                <a href="/" class="btn btn-outline-secondary">Back to Home</a>
                 
                 <div class="mt-5">
-                    <h5>🎯 如何开始？</h5>
+                    <h5>🎯 How to get started?</h5>
                     <div class="row mt-3 justify-content-center">
                         <div class="col-md-8">
                             <div class="card">
                                 <div class="card-body text-start">
                                     <ol>
-                                        <li class="mb-2">点击"收养新宠物"按钮</li>
-                                        <li class="mb-2">为你的宠物起一个可爱的名字</li>
-                                        <li class="mb-2">选择物种和特征</li>
-                                        <li class="mb-2">设置颜色和稀有度</li>
-                                        <li>开始照顾你的虚拟伙伴！</li>
+                                        <li class="mb-2">Click "Adopt New Pet" button</li>
+                                        <li class="mb-2">Give your pet a cute name</li>
+                                        <li class="mb-2">Choose species and traits</li>
+                                        <li class="mb-2">Set rarity level</li>
+                                        <li>Start caring for your virtual companion!</li>
                                     </ol>
                                 </div>
                             </div>
@@ -45,43 +45,57 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">
-                            <span style="color: <%= pet.customizations.color %>">●</span>
-                            <%= pet.name %>
+                            <!-- Removed color dot, using emoji based on species -->
+                            <% 
+                                const speciesEmoji = {
+                                    'dragon': '🐉',
+                                    'cat': '🐱',
+                                    'dog': '🐶',
+                                    'rat': '🐀',
+                                    'elf': '🧝',
+                                    'robot': '🤖',
+                                    'wolf': '🐺',
+                                    'deer': '🦌',
+                                    'duck': '🦆',
+                                    'bear': '🐻'
+                                };
+                            %>
+                            <%= speciesEmoji[pet.species] || '🐾' %> <%= pet.name %>
                         </h5>
                         <h6 class="card-subtitle mb-2 text-muted">
                             <span class="badge bg-<%= 
-                                pet.rarity === '传说' ? 'danger' : 
-                                pet.rarity === '史诗' ? 'warning' :
-                                pet.rarity === '稀有' ? 'info' : 'secondary'
+                                pet.rarity === 'Legendary' ? 'danger' : 
+                                pet.rarity === 'Epic' ? 'warning' :
+                                pet.rarity === 'Rare' ? 'info' : 'secondary'
                             %>"><%= pet.rarity %></span>
-                            <%= pet.species %>
+                            <%= pet.species.charAt(0).toUpperCase() + pet.species.slice(1) %>
                         </h6>
                         
                         <div class="mb-3">
                             <% if (pet.traits && pet.traits.length > 0) { %>
                                 <% pet.traits.forEach(trait => { %>
-                                    <span class="badge bg-light text-dark me-1"><%= trait %></span>
+                                    <span class="badge bg-light text-dark me-1 mb-1"><%= trait %></span>
                                 <% }) %>
                             <% } %>
                         </div>
 
-                        <!-- 状态条 -->
+                        <!-- Status bars -->
                         <div class="mb-2">
-                            <small>饥饿: <%= pet.stats.hunger %>/100</small>
+                            <small>Hunger: <%= pet.stats.hunger %>/100</small>
                             <div class="progress mb-1">
                                 <div class="progress-bar bg-<%= pet.stats.hunger > 50 ? 'success' : 'warning' %>" 
                                      style="width: <%= pet.stats.hunger %>%"></div>
                             </div>
                         </div>
                         <div class="mb-2">
-                            <small>快乐: <%= pet.stats.happiness %>/100</small>
+                            <small>Happiness: <%= pet.stats.happiness %>/100</small>
                             <div class="progress mb-1">
                                 <div class="progress-bar bg-<%= pet.stats.happiness > 50 ? 'success' : 'warning' %>" 
                                      style="width: <%= pet.stats.happiness %>%"></div>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <small>能量: <%= pet.stats.energy %>/100</small>
+                            <small>Energy: <%= pet.stats.energy %>/100</small>
                             <div class="progress mb-1">
                                 <div class="progress-bar bg-<%= pet.stats.energy > 50 ? 'success' : 'warning' %>" 
                                      style="width: <%= pet.stats.energy %>%"></div>
@@ -90,16 +104,16 @@
 
                         <% if (pet.needsCare && pet.needsCare()) { %>
                             <div class="alert alert-warning py-2">
-                                <small>⚠️ 需要照顾！</small>
+                                <small>⚠️ Needs care!</small>
                             </div>
                         <% } %>
                     </div>
                     <div class="card-footer">
-                        <a href="/pets/<%= pet._id %>" class="btn btn-outline-primary btn-sm">查看详情</a>
+                        <a href="/pets/<%= pet._id %>" class="btn btn-outline-primary btn-sm">View Details</a>
                         <form action="/pets/<%= pet._id %>/delete" method="POST" class="d-inline">
                             <button type="submit" class="btn btn-outline-danger btn-sm" 
-                                    onclick="return confirm('确定要送走<%= pet.name %>吗？')">
-                                送走
+                                    onclick="return confirm('Are you sure you want to release <%= pet.name %>?')">
+                                Release
                             </button>
                         </form>
                     </div>
@@ -109,4 +123,4 @@
         </div>
     <% } %>
 </div>
-<%- include('../partials/footer', { dbStatus: typeof dbStatus !== 'undefined' ? dbStatus : '已连接' }) %>
+<%- include('../partials/footer', { dbStatus: typeof dbStatus !== 'undefined' ? dbStatus : 'Connected' }) %>

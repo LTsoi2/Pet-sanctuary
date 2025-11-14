@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const VirtualPet = require('../models/VirtualPet');
 const router = express.Router();
 
-// 宠物列表页面 - GET /pets
+// Pet list page
 router.get('/', async (req, res) => {
   try {
     if (!req.session.userId) {
@@ -13,75 +13,65 @@ router.get('/', async (req, res) => {
     const pets = await VirtualPet.find({ owner: req.session.userId });
     
     res.render('pets/list', {
-      title: '我的宠物',
+      title: 'My Pets',
       pets,
-      dbStatus: '已连接',
+      dbStatus: 'Connected',
       error: null
     });
   } catch (error) {
-    console.error('获取宠物列表错误:', error);
+    console.error('Error getting pet list:', error);
     res.render('pets/list', {
-      title: '我的宠物',
+      title: 'My Pets',
       pets: [],
-      error: '获取宠物列表失败',
-      dbStatus: '已连接'
+      error: 'Failed to get pet list',
+      dbStatus: 'Connected'
     });
   }
 });
 
-// 显示创建宠物表单 - GET /pets/create
+// Create pet page
 router.get('/create', (req, res) => {
   if (!req.session.userId) {
     return res.redirect('/auth/login');
   }
 
   res.render('pets/create', {
-    title: '收养新宠物',
-    dbStatus: '已连接',
+    title: 'Adopt New Pet',
+    dbStatus: 'Connected',
     error: null
   });
 });
 
-// 处理创建宠物 - POST /pets/create
+// Create pet handler
 router.post('/create', async (req, res) => {
   try {
     if (!req.session.userId) {
       return res.redirect('/auth/login');
     }
 
-    const { name, species, rarity, traits, color } = req.body;
-    
-    // 处理 traits - 确保是数组
-    let traitsArray = [];
-    if (Array.isArray(traits)) {
-      traitsArray = traits;
-    } else if (traits) {
-      traitsArray = [traits];
-    }
+    const { name, species, rarity, traits } = req.body;
     
     const newPet = new VirtualPet({
       name,
       species,
-      rarity: rarity || '普通',
-      traits: traitsArray,
-      customizations: { color: color || '#667eea' },
+      rarity: rarity || 'Common',
+      traits: Array.isArray(traits) ? traits : [traits].filter(Boolean),
       owner: req.session.userId
     });
 
     await newPet.save();
-    console.log('✅ 宠物创建成功:', newPet.name);
     res.redirect('/pets');
   } catch (error) {
-    console.error('❌ 创建宠物错误:', error);
+    console.error('Create pet error:', error);
     res.render('pets/create', {
-      title: '收养新宠物',
-      error: '创建宠物失败: ' + error.message,
-      dbStatus: '已连接'
+      title: 'Adopt New Pet',
+      error: 'Failed to create pet, please try again',
+      dbStatus: 'Connected'
     });
   }
 });
 
-// 查看单个宠物详情 - GET /pets/:id
+// View single pet details
 router.get('/:id', async (req, res) => {
   try {
     if (!req.session.userId) {
@@ -95,29 +85,27 @@ router.get('/:id', async (req, res) => {
 
     if (!pet) {
       return res.status(404).render('error', {
-        title: '宠物未找到',
-        message: '没有找到这个宠物',
-        dbStatus: '已连接'
+        title: 'Pet Not Found',
+        message: 'Pet not found'
       });
     }
 
     res.render('pets/detail', {
-      title: `宠物详情 - ${pet.name}`,
+      title: `Pet Details - ${pet.name}`,
       pet,
-      dbStatus: '已连接',
+      dbStatus: 'Connected',
       error: null
     });
   } catch (error) {
-    console.error('获取宠物详情错误:', error);
+    console.error('Get pet details error:', error);
     res.status(500).render('error', {
-      title: '错误',
-      message: '获取宠物详情失败',
-      dbStatus: '已连接'
+      title: 'Error',
+      message: 'Failed to get pet details'
     });
   }
 });
 
-// 照顾宠物 - POST /pets/:id/care
+// Update pet status (feed, play, etc.)
 router.post('/:id/care', async (req, res) => {
   try {
     if (!req.session.userId) {
@@ -131,10 +119,10 @@ router.post('/:id/care', async (req, res) => {
     });
 
     if (!pet) {
-      return res.status(404).json({ error: '宠物未找到' });
+      return res.status(404).json({ error: 'Pet not found' });
     }
 
-    // 根据不同的照顾动作更新状态
+    // Update stats based on different care actions
     switch (action) {
       case 'feed':
         pet.stats.hunger = Math.min(100, pet.stats.hunger + 30);
@@ -153,12 +141,12 @@ router.post('/:id/care', async (req, res) => {
     await pet.save();
     res.redirect(`/pets/${pet._id}`);
   } catch (error) {
-    console.error('照顾宠物错误:', error);
+    console.error('Care for pet error:', error);
     res.status(500).redirect('/pets');
   }
 });
 
-// 删除宠物 - POST /pets/:id/delete
+// Delete pet
 router.post('/:id/delete', async (req, res) => {
   try {
     if (!req.session.userId) {
@@ -172,7 +160,7 @@ router.post('/:id/delete', async (req, res) => {
 
     res.redirect('/pets');
   } catch (error) {
-    console.error('删除宠物错误:', error);
+    console.error('Delete pet error:', error);
     res.status(500).redirect('/pets');
   }
 });
