@@ -1,6 +1,14 @@
+cat > views/partials/footer.ejs << 'EOF'
     </div>
-    <footer class="mt-5 py-3 bg-light text-center">
-        <p>Database State: <strong><%= dbStatus %></strong></p>
+    
+    <footer class="bg-dark text-light text-center py-3 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; 2024 Digital Pet Sanctuary - Built with Express.js & MongoDB</p>
+            <p class="mb-0">Database Status: <span class="badge bg-success"><%= typeof dbStatus !== 'undefined' ? dbStatus : 'Connected' %></span></p>
+        </div>
     </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+EOF
