@@ -42,20 +42,21 @@ router.get('/create', (req, res) => {
   });
 });
 
-// Create pet handler
+// Create pet handler - No accessory selection during creation
 router.post('/create', async (req, res) => {
   try {
     if (!req.session.userId) {
       return res.redirect('/auth/login');
     }
 
-    const { name, species, rarity, traits } = req.body;
+    const { name, species, rarity, trait } = req.body;
     
     const newPet = new VirtualPet({
       name,
       species,
       rarity: rarity || 'Common',
-      traits: Array.isArray(traits) ? traits : [traits].filter(Boolean),
+      trait: trait || 'None',
+      // Accessory defaults to 'None'
       owner: req.session.userId
     });
 
@@ -102,6 +103,34 @@ router.get('/:id', async (req, res) => {
       title: 'Error',
       message: 'Failed to get pet details'
     });
+  }
+});
+
+// NEW: Update accessory route
+router.post('/:id/accessory', async (req, res) => {
+  try {
+    if (!req.session.userId) {
+      return res.redirect('/auth/login');
+    }
+
+    const { accessory } = req.body;
+    const pet = await VirtualPet.findOne({ 
+      _id: req.params.id, 
+      owner: req.session.userId 
+    });
+
+    if (!pet) {
+      return res.status(404).json({ error: 'Pet not found' });
+    }
+
+    // Update the accessory
+    pet.accessory = accessory || 'None';
+    await pet.save();
+
+    res.redirect(`/pets/${pet._id}`);
+  } catch (error) {
+    console.error('Update accessory error:', error);
+    res.status(500).redirect(`/pets/${req.params.id}`);
   }
 });
 

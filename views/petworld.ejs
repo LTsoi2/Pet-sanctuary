@@ -1,7 +1,11 @@
 <%- include('partials/header', { title: 'Pet World' }) %>
 <div class="pet-world-container">
-    <!-- Pet World Background -->
-    <div class="pet-world-background"></div>
+    <!-- Pet World Background with Slideshow -->
+    <div class="pet-world-background">
+        <div class="background-slide slide-1 active"></div>
+        <div class="background-slide slide-2"></div>
+        <div class="background-slide slide-3"></div>
+    </div>
     
     <!-- User's Pets in Random Positions -->
     <% if (typeof pets !== 'undefined' && pets.length > 0) { %>
@@ -11,11 +15,8 @@
                     left: <%= Math.random() * 80 + 10 %>%; 
                     animation-delay: <%= index * 0.5 %>s;"
              data-pet-id="<%= pet._id %>">
-                <img src="<%= pet.imageUrl %>" alt="<%= pet.name %>" class="world-pet-image">
-                <h6><%= pet.name %></h6>
-                    </span>
-                </div>
-            </div>
+            <img src="<%= pet.imageUrl %>" alt="<%= pet.name %>" class="world-pet-image">
+            <div class="pet-name"><%= pet.name %></div>
         </div>
         <% }) %>
     <% } else { %>
@@ -42,17 +43,43 @@
     overflow: hidden;
 }
 
+/* Background Slideshow - Fixed to cover entire screen */
 .pet-world-background {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('/images/petworldbackground.gif');
+    z-index: 1;
+}
+
+.background-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    z-index: 1;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.background-slide.active {
+    opacity: 1;
+}
+
+.slide-1 {
+    background-image: url('/images/petworldbackground.gif');
+}
+
+.slide-2 {
+    background-image: url('/images/petworldbackground2.gif');
+}
+
+.slide-3 {
+    background-image: url('/images/petworldbackground3.gif');
 }
 
 .pet-world-background::before {
@@ -72,6 +99,7 @@
     cursor: pointer;
     animation: float-world 6s ease-in-out infinite;
     transition: transform 0.3s ease;
+    text-align: center;
 }
 
 .world-pet:hover {
@@ -91,40 +119,22 @@
     }
 }
 
-.pet-world-card {
-    background: rgba(255, 255, 255, 0.95);
-    border: 3px solid;
-    border-radius: 15px;
-    padding: 10px;
-    text-align: center;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(5px);
-    transition: all 0.3s ease;
-}
-
-.pet-world-card:hover {
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-}
-
 .world-pet-image {
     width: 80px;
     height: 80px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 8px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
 }
 
-.pet-world-info h6 {
-    margin: 0;
+.pet-name {
+    margin-top: 5px;
     font-size: 0.9rem;
     color: #333;
-}
-
-.world-rarity-badge {
-    font-size: 0.7rem;
+    background: rgba(255, 255, 255, 0.8);
     padding: 2px 6px;
-    color: white;
+    border-radius: 10px;
+    font-weight: normal;
 }
 
 .no-pets-message {
@@ -145,15 +155,11 @@
     }
     
     .world-pet-image {
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
     }
     
-    .pet-world-card {
-        padding: 6px;
-    }
-    
-    .pet-world-info h6 {
+    .pet-name {
         font-size: 0.8rem;
     }
 }
@@ -161,6 +167,36 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Background slideshow functionality
+    const backgroundSlides = document.querySelectorAll('.background-slide');
+    let currentBackgroundSlide = 0;
+    let backgroundInterval;
+    
+    function showBackgroundSlide(index) {
+        // Hide all slides
+        backgroundSlides.forEach(slide => {
+            slide.classList.remove('active');
+        });
+        
+        // Show the selected slide
+        backgroundSlides[index].classList.add('active');
+        
+        currentBackgroundSlide = index;
+    }
+    
+    function nextBackgroundSlide() {
+        let nextIndex = (currentBackgroundSlide + 1) % backgroundSlides.length;
+        showBackgroundSlide(nextIndex);
+    }
+    
+    // Start background slideshow (change every 5 seconds)
+    function startBackgroundSlideshow() {
+        backgroundInterval = setInterval(nextBackgroundSlide, 7000);
+    }
+    
+    // Initialize background slideshow
+    startBackgroundSlideshow();
+    
     // Add click event to all world pets
     const worldPets = document.querySelectorAll('.world-pet');
     worldPets.forEach(pet => {

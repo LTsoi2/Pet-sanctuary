@@ -17,10 +17,16 @@ const virtualPetSchema = new mongoose.Schema({
     enum: ['Common', 'Rare', 'Epic', 'Legendary'],
     default: 'Common'
   },
-  traits: [{
+  trait: {
     type: String,
-    enum: ['Fire Breath', 'Glowing', 'Can Sing', 'Invisible', 'Flying', 'Water Breathing', 'Fast Moving', 'Giant', 'Tiny']
-  }],
+    enum: ['Fire Breath', 'Glowing', 'Can Sing', 'Invisible', 'Flying', 'Water Breathing', 'Fast Moving', 'Giant', 'Tiny', 'None'],
+    default: 'None'
+  },
+  accessory: {
+    type: String,
+    enum: ['None', 'Bow', 'Hat'],
+    default: 'None'
+  },
   stats: {
     hunger: { type: Number, default: 50, min: 0, max: 100 },
     happiness: { type: Number, default: 50, min: 0, max: 100 },
@@ -41,35 +47,26 @@ const virtualPetSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// 虚拟方法：获取宠物图片路径
+// Virtual method: Get pet image path
 virtualPetSchema.virtual('imageUrl').get(function() {
-  const speciesImages = {
-    'dragon': '/images/dragon.png',
-    'cat': '/images/cat.png',
-    'dog': '/images/dog.png',
-    'rat': '/images/rat.png',
-    'elf': '/images/elf.png',
-    'robot': '/images/robot.png',
-    'wolf': '/images/wolf.png',
-    'deer': '/images/deer.png',
-    'duck': '/images/duck.png',
-    'bear': '/images/bear.png'
-  };
-  return speciesImages[this.species] || '/images/default-pet.png';
+  if (this.accessory && this.accessory !== 'None') {
+    return `/images/${this.species}_${this.accessory.toLowerCase()}.png`;
+  }
+  return `/images/${this.species}.png`;
 });
 
-// 虚拟方法：获取稀有度颜色
+// Virtual method: Get rarity color
 virtualPetSchema.virtual('rarityColor').get(function() {
   const rarityColors = {
-    'Common': '#6c757d',    // 灰色
-    'Rare': '#17a2b8',      // 蓝色
-    'Epic': '#6f42c1',      // 紫色
-    'Legendary': '#e83e8c'  // 粉色
+    'Common': '#6c757d',
+    'Rare': '#17a2b8',
+    'Epic': '#6f42c1',
+    'Legendary': '#e83e8c'
   };
   return rarityColors[this.rarity] || '#6c757d';
 });
 
-// 虚拟方法：宠物描述
+// Virtual method: Pet description
 virtualPetSchema.virtual('description').get(function() {
   const descriptions = {
     'dragon': 'Majestic flying creature with ancient wisdom and powerful breath attacks.',
@@ -90,7 +87,7 @@ virtualPetSchema.methods.needsCare = function() {
   return this.stats.hunger < 30 || this.stats.happiness < 30 || this.stats.energy < 30;
 };
 
-// 启用虚拟字段
+// Enable virtual fields
 virtualPetSchema.set('toJSON', { virtuals: true });
 virtualPetSchema.set('toObject', { virtuals: true });
 

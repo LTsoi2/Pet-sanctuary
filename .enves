@@ -1,0 +1,14 @@
+MONGODB_URI=mongodb+srv://leungtsoiyi:L1011109f@cluster0.2fbo2gs.mongodb.net/pet-sanctuary?retryWrites=true&w=majority
+SESSION_SECRET=your-secret-key-here-change-this-to-something-random
+PORT=3000MONGODB_URI=mongodb+srv://leungtsoiyi:L1011109f@cluster0.2fbo2gs.mongodb.net/pet-sanctuary?retryWrites=true&w=majority
+SESSION_SECRET=your-secret-key-here-change-this-to-something-random
+PORT=3000
+
+
+# OAuth - For local development (optional for now)
+GOOGLE_CLIENT_ID=your_google_client_id_for_localhost
+GOOGLE_CLIENT_SECRET=your_google_client_secret_for_localhost
+FACEBOOK_APP_ID=your_facebook_app_id_for_localhost
+FACEBOOK_APP_SECRET=your_facebook_app_secret_for_localhostMONGODB_URI=mongodb+srv://leungtsoiyi:L1011109f@cluster0.2fbo2gs.mongodb.net/petSanctuary?retryWrites=true&w=majority
+SESSION_SECRET=your-secret-key-here
+PORT=3000

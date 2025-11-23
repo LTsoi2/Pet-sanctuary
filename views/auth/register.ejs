@@ -10,29 +10,40 @@
                     <div class="alert alert-danger"><%= error %></div>
                 <% } %>
                 
+                <!-- OAuth Registration Buttons -->
+                <div class="mb-4">
+                    <a href="/auth/google" class="btn btn-outline-danger w-100 mb-2">
+                        <i class="fab fa-google me-2"></i>Sign up with Google
+                    </a>
+                    <a href="/auth/facebook" class="btn btn-outline-primary w-100">
+                        <i class="fab fa-facebook me-2"></i>Sign up with Facebook
+                    </a>
+                </div>
+                
+                <div class="text-center mb-3">
+                    <span class="bg-light px-3">OR</span>
+                </div>
+                
+                <!-- Traditional Registration Form -->
                 <form method="POST" action="/auth/register">
                     <div class="mb-3">
-                        <label class="form-label">Username</label>
-                        <input type="text" class="form-control" name="username" required 
-                               placeholder="Choose a username (min 3 characters)">
-                        <div class="form-text">Username must be at least 3 characters long.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" required 
-                               placeholder="Enter your email address">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <input type="password" class="form-control" name="password" required 
-                               placeholder="Create a password (min 6 characters)">
-                        <div class="form-text">Password must be at least 6 characters long.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" name="confirmPassword" required 
-                               placeholder="Confirm your password">
-                    </div>
+			    <label class="form-label">Username</label>
+			    <input type="text" class="form-control" name="username" required 
+				   placeholder="Choose a username (min 3 characters)">
+			    <div class="form-text">Username must be at least 3 characters long.</div>
+			</div>
+			<!-- Email removed for traditional registration -->
+			<div class="mb-3">
+			    <label class="form-label">Password</label>
+			    <input type="password" class="form-control" name="password" required 
+				   placeholder="Create a password (min 6 characters)">
+			    <div class="form-text">Password must be at least 6 characters long.</div>
+			</div>
+			<div class="mb-3">
+			    <label class="form-label">Confirm Password</label>
+			    <input type="password" class="form-control" name="confirmPassword" required 
+				   placeholder="Confirm your password">
+			</div>
                     <button type="submit" class="btn btn-primary w-100">Register</button>
                 </form>
                 

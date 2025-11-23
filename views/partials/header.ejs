@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,28 +9,89 @@
     <link href="/css/style.css" rel="stylesheet">
     <!-- Import VT323 Font -->
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Floating background elements -->
-    <%- include('floating-elements') %>
     
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <!-- Enhanced Navigation with Macaron Colors -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="/">🐾 Digital Pet Sanctuary</a>
-            <div class="navbar-nav ms-auto">
-                <% if (locals.user) { %>
-                    <a class="nav-link" href="/">Home</a>
-                    <a class="nav-link" href="/dashboard">Welcome</a>
-                    <a class="nav-link" href="/pets">My Pets</a>
-                    <a class="nav-link" href="/pets/create">Adopt New</a>
-                    <a class="nav-link" href="/petworld">Pet World</a>
-                    <a class="nav-link" href="/encyclopedia">Pet Encyclopedia</a>
-                    <a class="nav-link" href="/auth/logout">Logout (<%= user.username %>)</a>
-                <% } else { %>
-                    <a class="nav-link" href="/auth/login">Login</a>
-                    <a class="nav-link" href="/auth/register">Register</a>
-                <% } %>
+            <!-- Brand with enhanced styling -->
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <span class="brand-icon me-2">🐾</span>
+                <div class="brand-title">Digital Pet Sanctuary</div>
+            </a>
+
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Menu -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ms-auto">
+                    <% if (locals.user) { %>
+                        <!-- Quick Access Menu -->
+                        <div class="nav-item dropdown me-3">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-home me-1"></i>Quick Access
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/">
+                                    <i class="fas fa-home me-2"></i>Home
+                                </a></li>
+                                <li><a class="dropdown-item" href="/dashboard">
+                                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                                </a></li>
+                                <li><a class="dropdown-item" href="/pets">
+                                    <i class="fas fa-paw me-2"></i>My Pets
+                                </a></li>
+                                <li><a class="dropdown-item" href="/pets/create">
+                                    <i class="fas fa-plus-circle me-2"></i>Adopt New
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/petworld">
+                                    <i class="fas fa-globe me-2"></i>Pet World
+                                </a></li>
+                                <li><a class="dropdown-item" href="/encyclopedia">
+                                    <i class="fas fa-book me-2"></i>Encyclopedia
+                                </a></li>
+                            </ul>
+                        </div>
+
+                        <!-- User Menu -->
+                        <div class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                                <div class="user-avatar me-2">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <span class="user-name"><%= user.username %></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li class="dropdown-header">
+                                    <small>Signed in as</small>
+                                    <div class="fw-bold"><%= user.username %></div>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="/auth/logout">
+                                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                </a></li>
+                            </ul>
+                        </div>
+
+                    <% } else { %>
+                        <!-- Guest Navigation -->
+                        <a class="nav-link me-3" href="/auth/login">
+                            <i class="fas fa-sign-in-alt me-1"></i>Login
+                        </a>
+                        <a class="nav-link btn btn-outline-light btn-sm" href="/auth/register">
+                            <i class="fas fa-user-plus me-1"></i>Register
+                        </a>
+                    <% } %>
+                </div>
             </div>
         </div>
     </nav>
+
     <div class="container mt-4">
+

@@ -1,7 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const passport = require('passport');
 const User = require('../models/User');
 const router = express.Router();
+
+// Import passport config
+require('../config/passport');
 
 // Registration page
 router.get('/register', (req, res) => {
@@ -15,7 +19,7 @@ router.get('/register', (req, res) => {
 // Registration handling
 router.post('/register', async (req, res) => {
   try {
-    const { username, email, password, confirmPassword } = req.body;
+    const { username, password, confirmPassword } = req.body;
     
     if (password !== confirmPassword) {
       return res.render('auth/register', {
@@ -25,7 +29,13 @@ router.post('/register', async (req, res) => {
       });
     }
     
-    const newUser = new User({ username, email, password });
+    // Create user without email for traditional registration
+    const newUser = new User({ 
+      username, 
+      password,
+      email: null // Email is optional for traditional users
+    });
+    
     await newUser.save();
     
     req.session.userId = newUser._id;
@@ -35,8 +45,13 @@ router.post('/register', async (req, res) => {
   } catch (error) {
     let errorMessage = 'Registration failed';
     if (error.code === 11000) {
-      errorMessage = 'Username or email already exists';
+      errorMessage = 'Username already exists';
+    } else if (error.errors?.password) {
+      errorMessage = 'Password must be at least 6 characters long';
+    } else if (error.errors?.username) {
+      errorMessage = 'Username must be at least 3 characters long';
     }
+    
     res.render('auth/register', {
       title: 'User Registration',
       error: errorMessage,
@@ -68,6 +83,24 @@ router.post('/login', async (req, res) => {
       });
     }
     
+    // Check if user is OAuth user trying to use password
+    if (user.isOAuthUser) {
+      return res.render('auth/login', {
+        title: 'User Login',
+        error: `This account uses ${user.oauthProvider} login. Please use OAuth to sign in.`,
+        dbStatus: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'
+      });
+    }
+    
+    // Check if this is a traditional user (has password)
+    if (!user.password) {
+      return res.render('auth/login', {
+        title: 'User Login',
+        error: 'This account does not have password login enabled.',
+        dbStatus: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'
+      });
+    }
+    
     const isPasswordCorrect = await user.correctPassword(password, user.password);
     if (!isPasswordCorrect) {
       return res.render('auth/login', {
@@ -89,6 +122,36 @@ router.post('/login', async (req, res) => {
     });
   }
 });
+
+// Google OAuth routes
+router.get('/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+router.get('/google/callback',
+  passport.authenticate('google', { failureRedirect: '/auth/login' }),
+  (req, res) => {
+    // Successful authentication
+    req.session.userId = req.user._id;
+    req.session.username = req.user.username || req.user.displayName;
+    res.redirect('/dashboard');
+  }
+);
+
+// Facebook OAuth routes
+router.get('/facebook',
+  passport.authenticate('facebook', { scope: ['email'] })
+);
+
+router.get('/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/auth/login' }),
+  (req, res) => {
+    // Successful authentication
+    req.session.userId = req.user._id;
+    req.session.username = req.user.username || req.user.displayName;
+    res.redirect('/dashboard');
+  }
+);
 
 // Logout
 router.get('/logout', (req, res) => {

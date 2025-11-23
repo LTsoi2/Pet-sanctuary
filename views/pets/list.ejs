@@ -30,9 +30,10 @@
                     <div class="card-body text-center">
                         <!-- Pet Image with Rarity Border -->
                         <div class="pet-image-container mb-3">
-                            <img src="<%= pet.imageUrl %>" alt="<%= pet.species %>" 
-                                 class="pet-image" 
-                                 style="border: 2px solid <%= pet.rarityColor %>; border-radius: 10px;">
+                            <!-- UPDATED: Image with accessory -->
+                            <img src="/images/<%= pet.species %><%= pet.accessory === 'Bow' ? '_bow' : pet.accessory === 'Hat' ? '_hat' : '' %>.png" 
+     alt="<%= pet.species %>" 
+     class="pet-image">
                         </div>
                         
                         <h5 class="card-title">
@@ -58,6 +59,28 @@
                             </span>
                             <%= pet.species.charAt(0).toUpperCase() + pet.species.slice(1) %>
                         </h6>
+                        
+                        <!-- UPDATED: Single trait display -->
+                        <div class="mb-2">
+                            <span class="badge bg-primary">
+                                <strong>Trait:</strong> <%= pet.trait || 'None' %>
+                            </span>
+                        </div>
+                        
+                        <!-- NEW: Accessory display -->
+                        <% if (pet.accessory && pet.accessory !== 'None') { %>
+                            <div class="mb-2">
+                                <span class="badge bg-success">
+                                    <% if (pet.accessory === 'Bow') { %>
+                                        🎀 <%= pet.accessory %>
+                                    <% } else if (pet.accessory === 'Hat') { %>
+                                        🎩 <%= pet.accessory %>
+                                    <% } else { %>
+                                        <%= pet.accessory %>
+                                    <% } %>
+                                </span>
+                            </div>
+                        <% } %>
                         
                         <!-- Status bars -->
                         <div class="pet-status mt-3">

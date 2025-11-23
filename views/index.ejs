@@ -1,59 +1,167 @@
+
 <%- include('partials/header', { title: 'Digital Pet Sanctuary' }) %>
 <div class="container text-center mt-5">
     <div class="row">
-        <div class="col-md-8 mx-auto">
+        <div class="col-md-12">
             <h1 class="display-4">🐾 Welcome to Digital Pet Sanctuary!</h1>
             <p class="lead">Adopt and care for amazing virtual creatures</p>
             
-            <div class="alert alert-success mt-4">
-                <h5>✅ Database Status: <span class="badge bg-success"><%= dbStatus %></span></h5>
-                <p>Using MongoDB Atlas Cloud Database</p>
-            </div>
-            
-            <div class="mt-4">
-                <% if (locals.user) { %>
-                    <a href="/pets" class="btn btn-primary btn-lg me-3">🐉 View My Pets</a>
-                    <a href="/pets/create" class="btn btn-success btn-lg me-3">➕ Adopt New Pet</a>
-                    <a href="/auth/logout" class="btn btn-outline-secondary btn-lg">Logout</a>
-                <% } else { %>
-                    <a href="/auth/register" class="btn btn-primary btn-lg me-3">Get Started</a>
-                    <a href="/auth/login" class="btn btn-outline-primary btn-lg">Login</a>
-                <% } %>
-            </div>
-            
-            <div class="row mt-5">
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
+            <!-- Banner and Cards Section -->
+            <div class="row align-items-start mt-4">
+                <!-- Left Side Cards - Moved further left and down -->
+                <div class="col-md-2 ps-0 left-side-cards">
+                    <div class="card h-100 mb-4 me-1">
+                        <div class="card-body d-flex flex-column">
                             <h5 class="card-title">🐉 Virtual Pets</h5>
-                            <p class="card-text">Adopt unique digital creatures and care for them</p>
+                            <p class="card-text flex-grow-1">Adopt unique digital creatures and care for them</p>
                             <% if (locals.user) { %>
-                                <a href="/pets" class="btn btn-outline-primary">View Pets</a>
+                                <a href="/pets" class="btn btn-outline-primary mt-auto">View Pets</a>
                             <% } else { %>
-                                <a href="/auth/register" class="btn btn-outline-primary">Register to View</a>
+                                <a href="/auth/register" class="btn btn-outline-primary mt-auto">Register to View</a>
                             <% } %>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
+                    
+                    <div class="card h-100 mb-4 me-1">
+                        <div class="card-body d-flex flex-column">
                             <h5 class="card-title">❤️ Status Management</h5>
-                            <p class="card-text">Feed, play, rest - keep your pets happy</p>
+                            <p class="card-text flex-grow-1">Feed, play, rest - keep your pets happy</p>
                             <% if (locals.user) { %>
-                                <a href="/pets/create" class="btn btn-outline-success">Adopt Pet</a>
+                                <a href="/pets/create" class="btn btn-outline-success mt-auto">Adopt Pet</a>
                             <% } else { %>
-                                <a href="/auth/register" class="btn btn-outline-success">Register to Adopt</a>
+                                <a href="/auth/register" class="btn btn-outline-success mt-auto">Register to Adopt</a>
                             <% } %>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">🌐 Cloud Storage</h5>
-                            <p class="card-text">Secure data storage with MongoDB Atlas</p>
-                            <span class="badge bg-success"><%= dbStatus %></span>
+                
+                <!-- Center Banner - Extra Wide column -->
+                <div class="col-md-8">
+                    <div class="banner-container-extra-wide">
+                        <!-- Slide 1: Adopt Pet -->
+                        <div class="banner-slide-extra-wide slide-1 active" data-link="<%= locals.user ? '/pets/create' : '/auth/register' %>">
+                            <div class="banner-content-extra-wide">
+                                <h2>Adopt Pet</h2>
+                                <p>Adopt your own special pet!</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 2: View Pet -->
+                        <div class="banner-slide-extra-wide slide-2" data-link="<%= locals.user ? '/pets' : '/auth/register' %>">
+                            <div class="banner-content-extra-wide">
+                                <h2>View Pet</h2>
+                                <p>Let's take a look at your pet</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 3: Pet World -->
+                        <div class="banner-slide-extra-wide slide-3" data-link="<%= locals.user ? '/petworld' : '/auth/register' %>">
+                            <div class="banner-content-extra-wide">
+                                <h2>Pet World</h2>
+                                <p>Views the incredible digital world with pets</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 4: Pet Encyclopedia -->
+                        <div class="banner-slide-extra-wide slide-4" data-link="<%= locals.user ? '/encyclopedia' : '/auth/register' %>">
+                            <div class="banner-content-extra-wide">
+                                <h2>Pet Encyclopedia</h2>
+                                <p>Discover all virtual creatures</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 5: Background -->
+                        <div class="banner-slide-extra-wide slide-5" data-link="">
+                            <div class="banner-content-extra-wide">
+                                <h2>Enjoy time with pet</h2>
+                            </div>
+                        </div>
+                        
+                        <!-- Banner Controls -->
+                        <div class="banner-controls-extra-wide">
+                            <div class="banner-dot-extra-wide active" data-slide="0"></div>
+                            <div class="banner-dot-extra-wide" data-slide="1"></div>
+                            <div class="banner-dot-extra-wide" data-slide="2"></div>
+                            <div class="banner-dot-extra-wide" data-slide="3"></div>
+                            <div class="banner-dot-extra-wide" data-slide="4"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Side Cards - Moved further right and down -->
+                <div class="col-md-2 pe-0 right-side-cards">
+                    <div class="card h-100 mb-4 ms-1">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">🌐 Pet World</h5>
+                            <p class="card-text flex-grow-1">Views where is yours own pet</p>
+                            <% if (locals.user) { %>
+                                <a href="/petworld" class="btn btn-outline-primary mt-auto">Pet World</a>
+                            <% } else { %>
+                                <a href="/auth/register" class="btn btn-outline-primary mt-auto">Register to View</a>
+                            <% } %>
+                        </div>
+                    </div>
+                    
+                    <div class="card h-100 mb-4 ms-1">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">📚 Encyclopedia</h5>
+                            <p class="card-text flex-grow-1">Discover all available pet species</p>
+                            <% if (locals.user) { %>
+                                <a href="/encyclopedia" class="btn btn-outline-info mt-auto">View Encyclopedia</a>
+                            <% } else { %>
+                                <a href="/auth/register" class="btn btn-outline-info mt-auto">Register to View</a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pet Images Section (without heading) -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="pet-marquee-container">
+                        <div class="pet-marquee">
+                            <!-- Pet Images with proper paths and styling -->
+                            <div class="pet-image-wrapper">
+                                <img src="/images/dragon.png" alt="Dragon" class="pet-image-index">
+                                <div class="pet-tooltip">adopt me 🥺</div>
+                            </div>
+                            <div class="pet-image-wrapper">
+                                <img src="/images/cat.png" alt="Cat" class="pet-image-index">
+                                <div class="pet-tooltip">adopt me 🥺</div>
+                            </div>
+                            <div class="pet-image-wrapper">
+                                <img src="/images/dog.png" alt="Dog" class="pet-image-index">
+                                <div class="pet-tooltip">adopt me 🥺</div>
+                            </div>
+                            <div class="pet-image-wrapper">
+                                <img src="/images/rat.png" alt="Rat" class="pet-image-index">
+                                <div class="pet-tooltip">adopt me 🥺</div>
+                            </div>
+                            <div class="pet-image-wrapper">
+                                <img src="/images/elf.png" alt="Elf" class="pet-image-index">
+                                <div class="pet-tooltip">adopt me 🥺</div>
+                            </div>
+                            <div class="pet-image-wrapper">
+                                <img src="/images/robot.png" alt="Robot" class="pet-image-index">
+                                <div class="pet-tooltip">adopt me 🥺</div>
+                            </div>
+                            <div class="pet-image-wrapper">
+                                <img src="/images/wolf.png" alt="Wolf" class="pet-image-index">
+                                <div class="pet-tooltip">adopt me 🥺</div>
+                            </div>
+                            <div class="pet-image-wrapper">
+                                <img src="/images/deer.png" alt="Deer" class="pet-image-index">
+                                <div class="pet-tooltip">adopt me 🥺</div>
+                            </div>
+                            <div class="pet-image-wrapper">
+                                <img src="/images/duck.png" alt="Duck" class="pet-image-index">
+                                <div class="pet-tooltip">adopt me 🥺</div>
+                            </div>
+                            <div class="pet-image-wrapper">
+                                <img src="/images/bear.png" alt="Bear" class="pet-image-index">
+                                <div class="pet-tooltip">adopt me 🥺</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -61,4 +169,307 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const slides = document.querySelectorAll('.banner-slide-extra-wide');
+        const dots = document.querySelectorAll('.banner-dot-extra-wide');
+        const bannerContainer = document.querySelector('.banner-container-extra-wide');
+        let currentSlide = 0;
+        let slideInterval;
+        
+        // Function to show a specific slide
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            // Remove active class from all dots
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            
+            // Show the selected slide
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            
+            currentSlide = index;
+        }
+        
+        // Function to go to next slide
+        function nextSlide() {
+            let nextIndex = (currentSlide + 1) % slides.length;
+            showSlide(nextIndex);
+        }
+        
+        // Handle banner click
+        bannerContainer.addEventListener('click', function(e) {
+            // Don't navigate if clicking on dots
+            if (e.target.classList.contains('banner-dot-extra-wide')) {
+                return;
+            }
+            
+            const activeSlide = document.querySelector('.banner-slide-extra-wide.active');
+            const link = activeSlide.getAttribute('data-link');
+            
+            if (link) {
+                window.location.href = link;
+            }
+        });
+        
+        // Add click event to dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevent triggering banner click
+                clearInterval(slideInterval);
+                showSlide(index);
+                startSlideShow();
+            });
+        });
+        
+        // Start automatic slide rotation
+        function startSlideShow() {
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+        
+        // Initialize the slideshow
+        startSlideShow();
+
+        // Pet jumping animation
+        function startPetAnimation() {
+            const petWrappers = document.querySelectorAll('.pet-image-wrapper');
+            let currentPetIndex = 0;
+            
+            function animateNextPet() {
+                // Remove active class from all pets
+                petWrappers.forEach(pet => pet.classList.remove('active'));
+                
+                // Add active class to current pet
+                petWrappers[currentPetIndex].classList.add('active');
+                
+                // Move to next pet
+                currentPetIndex = (currentPetIndex + 1) % petWrappers.length;
+                
+                // Schedule next animation
+                setTimeout(animateNextPet, 2000);
+            }
+            
+            // Start the animation
+            animateNextPet();
+        }
+        
+        // Start pet animation
+        startPetAnimation();
+    });
+</script>
+
+<style>
+/* Pet Marquee Container */
+.pet-marquee-container {
+    width: 100%;
+    overflow: visible;
+    padding: 3rem 0;
+    position: relative;
+    margin-top: 20px;
+}
+
+.pet-marquee {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 2rem;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+/* Pet Images Styling for Index Page */
+.pet-image-wrapper {
+    display: inline-block;
+    transition: all 0.3s ease;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.pet-image-index {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+    border: none !important;
+    cursor: pointer;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+/* Pet jumping animation */
+.pet-image-wrapper.active .pet-image-index {
+    animation: petJump 0.6s ease-in-out;
+}
+
+@keyframes petJump {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    25% {
+        transform: translateY(-20px) scale(1.1);
+    }
+    50% {
+        transform: translateY(-30px) scale(1.15);
+    }
+    75% {
+        transform: translateY(-20px) scale(1.1);
+    }
+}
+
+/* Hover effect */
+.pet-image-index:hover {
+    transform: translateY(-10px) scale(1.2);
+    filter: drop-shadow(0 12px 15px rgba(0, 0, 0, 0.3));
+}
+
+/* Pet tooltip - Original size with "adopt me 🥺" positioned upward */
+.pet-tooltip {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 1rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    pointer-events: none;
+    min-width: 120px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.pet-tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid rgba(0, 0, 0, 0.9);
+}
+
+.pet-image-wrapper:hover .pet-tooltip {
+    opacity: 1;
+    visibility: visible;
+    top: -60px;
+}
+
+/* Card Positioning Adjustments */
+.col-md-2.ps-0 {
+    padding-left: 0 !important;
+    transform: translateX(-15px) translateY(50px);
+}
+
+.col-md-2.pe-0 {
+    padding-right: 0 !important;
+    transform: translateX(15px) translateY(50px);
+}
+
+.card.mb-4.me-1 {
+    margin-right: 0.25rem !important;
+    margin-left: -10px !important;
+}
+
+.card.mb-4.ms-1 {
+    margin-left: 0.25rem !important;
+    margin-right: -10px !important;
+}
+
+/* Ensure cards don't get cut off on smaller screens */
+@media (max-width: 1200px) {
+    .pet-image-index {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .pet-marquee {
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .pet-image-index {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .pet-marquee {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .col-md-2.ps-0,
+    .col-md-2.pe-0 {
+        transform: none;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    
+    .card.mb-4.me-1,
+    .card.mb-4.ms-1 {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+    
+    .pet-image-index {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .pet-marquee {
+        gap: 0.5rem;
+        padding: 0 0.5rem;
+    }
+    
+    .pet-tooltip {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+        min-width: 100px;
+        top: -45px;
+    }
+    
+    .pet-image-wrapper:hover .pet-tooltip {
+        top: -55px;
+    }
+}
+
+@media (max-width: 576px) {
+    .pet-image-index {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .pet-marquee {
+        gap: 0.3rem;
+    }
+    
+    .pet-tooltip {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+        min-width: 90px;
+        top: -40px;
+    }
+    
+    .pet-image-wrapper:hover .pet-tooltip {
+        top: -50px;
+    }
+}
+</style>
+
 <%- include('partials/footer', { dbStatus: dbStatus }) %>
+

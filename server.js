@@ -15,7 +15,12 @@ app.use(session({
   name: 'session',
   keys: [process.env.SESSION_SECRET || 'digital-pet-sanctuary-secret-key-2024'],
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
-}));
+})); 
+
+// Passport middleware
+const passport = require('./config/passport');
+app.use(passport.initialize());
+app.use(passport.session());
 
 // View engine setup
 app.set('view engine', 'ejs');
@@ -34,7 +39,6 @@ mongoose.connect(MONGODB_URI, {
 .catch(err => {
   console.log('❌ Database connection failed:', err.message);
 });
-
 // User data middleware - make user data available to all views
 app.use((req, res, next) => {
   res.locals.user = req.session.userId ? { 

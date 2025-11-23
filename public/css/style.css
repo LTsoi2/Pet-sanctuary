@@ -1,3 +1,4 @@
+
 /* public/css/style.css - Digital Pet Sanctuary with VT323 Font */
 :root {
     --primary-color: #667eea;
@@ -32,7 +33,6 @@ body {
     color: #333;
     font-size: 18px;
     letter-spacing: 0.5px;
-    
 }
 
 /* Semi-transparent overlay for better readability */
@@ -47,20 +47,104 @@ body::before {
     z-index: -1;
 }
 
-/* Navbar Styling */
+
+/* Enhanced Header Styles */
 .navbar-brand {
-    font-weight: normal;
     font-size: 1.8rem;
+    padding: 0.5rem 0;
+    font-weight: normal;
+}
+
+.brand-title {
+    font-size: 1.8rem;
+    line-height: 1.2;
+    font-weight: normal;
     letter-spacing: 1px;
 }
 
-.navbar-dark.bg-primary {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%) !important;
+.brand-icon {
+    font-size: 2rem;
 }
 
 .navbar-nav .nav-link {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    margin: 0 0.1rem;
     letter-spacing: 0.5px;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+.navbar-nav .dropdown-menu {
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.dropdown-item {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+    font-family: 'VT323', monospace;
+}
+
+.dropdown-item:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateX(5px);
+}
+
+.user-avatar {
+    font-size: 1.3rem;
+}
+
+.user-name {
+    font-size: 1.1rem;
+}
+
+.dropdown-header {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-family: 'VT323', monospace;
+}
+
+/* Mobile Responsive for Header */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+    
+    .brand-title {
+        font-size: 1.5rem;
+    }
+    
+    .navbar-nav .nav-link {
+        padding: 0.5rem 0.75rem;
+        font-size: 1rem;
+    }
+}
+
+/* Animation for dropdown */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-menu {
+    animation: slideDown 0.3s ease;
 }
 
 /* Card Styling */
@@ -108,6 +192,8 @@ body::before {
     font-size: 1.1rem;
     letter-spacing: 0.5px;
     border: 2px solid transparent;
+    cursor: pointer;
+    font-family: 'VT323', monospace;
 }
 
 .btn-primary {
@@ -350,43 +436,6 @@ footer.bg-dark {
     z-index: 1;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    body {
-        font-size: 16px;
-        background-attachment: scroll;
-    }
-    
-    .jumbotron {
-        padding: 1.5rem 1rem;
-    }
-    
-    .display-4 {
-        font-size: 2rem;
-    }
-    
-    .lead {
-        font-size: 1.2rem;
-    }
-    
-    .btn-lg {
-        padding: 6px 14px;
-        font-size: 1rem;
-    }
-    
-    .card-body {
-        padding: 1rem;
-    }
-    
-    .navbar-brand {
-        font-size: 1.5rem;
-    }
-    
-    .nav-link {
-        font-size: 1.1rem;
-    }
-}
-
 /* Animation for pet cards */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
@@ -470,203 +519,6 @@ code, pre {
     image-rendering: crisp-edges;
 }
 
-
-/* Floating GIF Animation */
-.floating-element {
-    position: fixed;
-    z-index: 9999;
-    pointer-events: none;
-    animation: float 6s ease-in-out infinite;
-    width: 400px;  
-    height: 400px; 
-}
-
-.floating-element-1 {
-    top: 5%;
-    left: 3%;
-    animation-delay: 0s;
-}
-
-.floating-element-2 {
-    top: 15%;
-    right: 5%;
-    animation-delay: 2s;
-}
-
-.floating-element-3 {
-    bottom: 10%;
-    left: 8%;
-    animation-delay: 4s;
-}
-
-.floating-element-4 {
-    bottom: 20%;
-    right: 3%;
-    animation-delay: 1s;
-}
-
-.floating-element-5 {
-    top: 40%;
-    left: 45%;
-    animation-delay: 3s;
-}
-
-.floating-element-6 {
-    top: 25%;
-    left: 20%;
-    animation-delay: 5s;
-}
-
-.floating-element-7 {
-    top: 60%;
-    right: 15%;
-    animation-delay: 1.5s;
-}
-
-.floating-element-8 {
-    bottom: 30%;
-    left: 70%;
-    animation-delay: 3.5s;
-}
-
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0px) rotate(0deg) scale(1);
-    }
-    25% {
-        transform: translateY(-40px) rotate(10deg) scale(1.1);
-    }
-    50% {
-        transform: translateY(-20px) rotate(5deg) scale(1.05);
-    }
-    75% {
-        transform: translateY(-30px) rotate(-8deg) scale(1.08);
-    }
-}
-
-/* 不同的动画速度和大小变体 */
-.floating-element.slow {
-    animation-duration: 8s;
-    width: 180px;  /* 更大的慢速元素 */
-    height: 180px;
-}
-
-.floating-element.fast {
-    animation-duration: 4s;
-    width: 120px;  /* 稍小的快速元素 */
-    height: 120px;
-}
-
-.floating-element.large {
-    width: 200px;  /* 超大元素 */
-    height: 200px;
-    animation-duration: 10s;
-}
-
-.floating-element.xlarge {
-    width: 250px;  /* 特大元素 */
-    height: 250px;
-    animation-duration: 12s;
-}
-
-/* 图片样式优化 */
-.floating-element img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-}
-
-/* 为不同元素添加不同的视觉效果 */
-.floating-element-1 img {
-    filter: drop-shadow(0 4px 8px rgba(102, 126, 234, 0.5));
-}
-
-.floating-element-2 img {
-    filter: drop-shadow(0 4px 8px rgba(118, 75, 162, 0.5));
-}
-
-.floating-element-3 img {
-    filter: drop-shadow(0 4px 8px rgba(80, 167, 69, 0.5));
-}
-
-.floating-element-4 img {
-    filter: drop-shadow(0 4px 8px rgba(220, 53, 69, 0.5));
-}
-
-/* 旋转动画变体 */
-@keyframes float-rotate {
-    0%, 100% {
-        transform: translateY(0px) rotate(0deg) scale(1);
-    }
-    50% {
-        transform: translateY(-30px) rotate(180deg) scale(1.1);
-    }
-}
-
-.floating-element.rotate {
-    animation: float-rotate 8s ease-in-out infinite;
-}
-
-/* 弹跳动画变体 */
-@keyframes float-bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0) scale(1);
-    }
-    40% {
-        transform: translateY(-50px) scale(1.15);
-    }
-    60% {
-        transform: translateY(-25px) scale(1.08);
-    }
-}
-
-.floating-element.bounce {
-    animation: float-bounce 5s ease-in-out infinite;
-}
-
-/* 响应式设计 - 在移动设备上适当缩小 */
-@media (max-width: 768px) {
-    .floating-element {
-        width: 80px;  /* 在手机上适当缩小 */
-        height: 80px;
-    }
-    
-    .floating-element.large {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .floating-element.xlarge {
-        width: 120px;
-        height: 120px;
-    }
-    
-    /* 在移动设备上减少浮动元素数量 */
-    .floating-element-5,
-    .floating-element-6,
-    .floating-element-7,
-    .floating-element-8 {
-        display: none;
-    }
-}
-
-@media (max-width: 480px) {
-    .floating-element {
-        width: 60px;
-        height: 60px;
-    }
-    
-    /* 在非常小的屏幕上只保留少数元素 */
-    .floating-element-3,
-    .floating-element-4,
-    .floating-element-5,
-    .floating-element-6,
-    .floating-element-7,
-    .floating-element-8 {
-        display: none;
-    }
-}
 /* Dashboard Banner Styling */
 .dashboard-banner {
     background-image: url('/images/banner-bg.png');
@@ -742,8 +594,602 @@ code, pre {
     }
 }
 
-/* Responsive banner */
+/* Banner Styles - Carousel Banner */
+.banner-container {
+    width: 90%;
+    margin: 2rem auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    position: relative;
+    height: 400px;
+    border: 3px solid rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+}
+
+.banner-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.banner-slide.active {
+    opacity: 1;
+}
+
+.banner-content {
+    position: relative;
+    z-index: 10;
+}
+
+.banner-slide h2 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: normal;
+    letter-spacing: 2px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+}
+
+.banner-slide p {
+    font-size: 1.8rem;
+    margin-bottom: 0;
+    max-width: 700px;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Backgrounds for banner slides */
+.slide-1 {
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                url('/images/AdoptPetBackground.gif');
+}
+
+.slide-2 {
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                url('/images/ViewsPetBackground.png');
+}
+
+.slide-3 {
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                url('/images/petworldbackground.gif');
+}
+
+.slide-4 {
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                url('/images/encyclopediaBackground.png');
+}
+
+.slide-5 {
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                url('/images/NightBackground.png');
+}
+
+/* Banner Controls */
+.banner-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    z-index: 30;
+}
+
+.banner-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 40;
+}
+
+.banner-dot.active {
+    background-color: white;
+    transform: scale(1.2);
+}
+
+/* Macaron Color Scheme for Header */
+.navbar {
+    background: linear-gradient(135deg, #89CFF0 0%, #A7C7E7 25%, #B5EAD7 50%, #C7CEEA 75%, #FFDAC1 100%) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 20px rgba(137, 207, 240, 0.3);
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    padding: 0.5rem 0;
+    font-weight: normal;
+    color: #2C3E50 !important;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.brand-title {
+    font-size: 1.8rem;
+    line-height: 1.2;
+    font-weight: normal;
+    letter-spacing: 1px;
+    color: #2C3E50;
+}
+
+.brand-icon {
+    font-size: 2rem;
+    filter: drop-shadow(1px 1px 2px rgba(255, 255, 255, 0.8));
+}
+
+.navbar-nav .nav-link {
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+    margin: 0 0.2rem;
+    letter-spacing: 0.5px;
+    color: #2C3E50 !important;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.navbar-nav .nav-link:hover {
+    background: rgba(255, 255, 255, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(137, 207, 240, 0.4);
+    color: #1A2530 !important;
+}
+
+.navbar-nav .dropdown-toggle::after {
+    border-top-color: #2C3E50;
+}
+
+.navbar-nav .dropdown-menu {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 245, 255, 0.95) 100%);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(137, 207, 240, 0.3);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.dropdown-item {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    font-family: 'VT323', monospace;
+    color: #2C3E50;
+    border-radius: 8px;
+    margin: 2px 8px;
+    width: auto;
+}
+
+.dropdown-item:hover {
+    background: linear-gradient(135deg, #89CFF0 0%, #A7C7E7 100%);
+    color: white;
+    transform: translateX(8px);
+    box-shadow: 0 4px 12px rgba(137, 207, 240, 0.4);
+}
+
+.dropdown-header {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    font-family: 'VT323', monospace;
+    color: #6C757D;
+    background: rgba(137, 207, 240, 0.1);
+    border-radius: 8px;
+    margin: 2px 8px;
+}
+
+.user-avatar {
+    font-size: 1.3rem;
+    color: #2C3E50;
+}
+
+.user-name {
+    font-size: 1.1rem;
+    color: #2C3E50;
+    font-weight: 500;
+}
+
+.navbar-toggler {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2844, 62, 80, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Button styles for guest navigation */
+.navbar-nav .btn-outline-light {
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    color: #2C3E50;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.navbar-nav .btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.8);
+    color: #2C3E50;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(137, 207, 240, 0.4);
+}
+
+/* Mobile Responsive for Header */
 @media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+    
+    .brand-title {
+        font-size: 1.5rem;
+    }
+    
+    .navbar-nav .nav-link {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        margin: 0.2rem 0;
+        border-radius: 12px;
+    }
+    
+    .dropdown-menu {
+        margin-top: 0.5rem;
+        border-radius: 12px;
+    }
+}
+
+/* Animation for dropdown */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-menu {
+    animation: slideDown 0.4s ease;
+}
+
+/* Floating animation for brand */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+.navbar-brand {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Extra Wide Banner Styles */
+.banner-container-extra-wide {
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    position: relative;
+    height: 500px;
+    border: 5px solid rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+}
+
+.banner-slide-extra-wide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem;
+    color: white;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+}
+
+.banner-slide-extra-wide.active {
+    opacity: 1;
+}
+
+.banner-content-extra-wide {
+    position: relative;
+    z-index: 10;
+    max-width: 90%;
+}
+
+.banner-slide-extra-wide h2 {
+    font-size: 4.5rem;
+    margin-bottom: 2.5rem;
+    font-weight: normal;
+    letter-spacing: 4px;
+    text-shadow: 5px 5px 12px rgba(0, 0, 0, 0.9);
+}
+
+.banner-slide-extra-wide p {
+    font-size: 2.5rem;
+    margin-bottom: 0;
+    max-width: 1000px;
+    letter-spacing: 2px;
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* Extra Wide Banner Controls */
+.banner-controls-extra-wide {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    z-index: 30;
+}
+
+.banner-dot-extra-wide {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 40;
+}
+
+.banner-dot-extra-wide.active {
+    background-color: white;
+    transform: scale(1.4);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
+}
+
+/* Card and Layout Adjustments */
+.card.h-100 {
+    min-height: 180px;
+}
+
+.card-body.d-flex.flex-column {
+    height: 100%;
+}
+
+/* Remove left padding from left column and right padding from right column */
+.col-md-2.ps-0 {
+    padding-left: 0 !important;
+    transform: translateX(-15px) translateY(50px);
+}
+
+.col-md-2.pe-0 {
+    padding-right: 0 !important;
+    transform: translateX(15px) translateY(50px);
+}
+
+/* Adjust card margins for closer positioning */
+.card.mb-4.me-1 {
+    margin-right: 0.25rem !important;
+    margin-left: -10px !important;
+}
+
+.card.mb-4.ms-1 {
+    margin-left: 0.25rem !important;
+    margin-right: -10px !important;
+}
+
+/* Pet Marquee Container */
+.pet-marquee-container {
+    width: 100%;
+    overflow: visible;
+    padding: 3rem 0;
+    position: relative;
+    margin-top: 20px;
+}
+
+.pet-marquee {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 2rem;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+/* Pet Images Styling for Index Page */
+.pet-image-wrapper {
+    display: inline-block;
+    transition: all 0.3s ease;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.pet-image-index {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+    border: none !important;
+    cursor: pointer;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+/* Pet jumping animation */
+.pet-image-wrapper.active .pet-image-index {
+    animation: petJump 0.6s ease-in-out;
+}
+
+@keyframes petJump {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    25% {
+        transform: translateY(-20px) scale(1.1);
+    }
+    50% {
+        transform: translateY(-30px) scale(1.15);
+    }
+    75% {
+        transform: translateY(-20px) scale(1.1);
+    }
+}
+
+/* Hover effect */
+.pet-image-index:hover {
+    transform: translateY(-10px) scale(1.2);
+    filter: drop-shadow(0 12px 15px rgba(0, 0, 0, 0.3));
+}
+
+/* Pet tooltip - Original size with "adopt me 🥺" positioned upward */
+.pet-tooltip {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 1rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    pointer-events: none;
+    min-width: 120px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.pet-tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid rgba(0, 0, 0, 0.9);
+}
+
+.pet-image-wrapper:hover .pet-tooltip {
+    opacity: 1;
+    visibility: visible;
+    top: -60px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .banner-container-extra-wide {
+        height: 450px;
+    }
+    
+    .banner-slide-extra-wide h2 {
+        font-size: 4rem;
+    }
+    
+    .banner-slide-extra-wide p {
+        font-size: 2.2rem;
+    }
+    
+    .pet-image-index {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .pet-marquee {
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .banner-container-extra-wide {
+        height: 400px;
+    }
+    
+    .banner-slide-extra-wide h2 {
+        font-size: 3.5rem;
+    }
+    
+    .banner-slide-extra-wide p {
+        font-size: 2rem;
+    }
+    
+    .banner-slide-extra-wide {
+        padding: 3rem;
+    }
+    
+    .pet-image-index {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .pet-marquee {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+        background-attachment: scroll;
+    }
+    
+    .jumbotron {
+        padding: 1.5rem 1rem;
+    }
+    
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    .lead {
+        font-size: 1.2rem;
+    }
+    
+    .btn-lg {
+        padding: 6px 14px;
+        font-size: 1rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
     .dashboard-banner {
         padding: 2rem 1rem;
     }
@@ -760,7 +1206,47 @@ code, pre {
         font-size: 1rem;
     }
     
-    .floating-element {
-        display: none; 
+    .banner-container {
+        width: 95%;
+        height: 350px;
     }
-}
+    
+    .banner-slide h2 {
+        font-size: 2.8rem;
+    }
+    
+    .banner-slide p {
+        font-size: 1.5rem;
+    }
+    
+    /* Stack layout on mobile */
+    .row.align-items-start {
+        flex-direction: column;
+    }
+    
+    .col-md-2, .col-md-8 {
+        width: 100%;
+        margin-bottom: 2rem;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    
+    .banner-container-extra-wide {
+        height: 350px;
+        order: -1; /* Banner first on mobile */
+    }
+    
+    .banner-slide-extra-wide h2 {
+        font-size: 3rem;
+    }
+    
+    .banner-slide-extra-wide p {
+        font-size: 1.8rem;
+    }
+    
+    .banner-slide-extra-wide {
+        padding: 2rem;
+    }
+    
+    .card.mb-4.me-1,
+    .card.mb-4
